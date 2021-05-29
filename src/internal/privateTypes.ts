@@ -1,5 +1,5 @@
 import { Platform } from 'react-native';
-import { DeviceType, LocationProviderInfo, PowerState, AsyncHookResult } from './types';
+import type { DeviceType, LocationProviderInfo, PowerState, AsyncHookResult } from './types';
 
 export type NotchDevice = {
   brand: string;
@@ -118,6 +118,10 @@ interface ExposedNativeMethods {
   getUsedMemorySync: () => number;
   getUserAgent: () => Promise<string>;
   getUserAgentSync: () => string;
+  hasGms: () => Promise<boolean>;
+  hasGmsSync: () => boolean;
+  hasHms: () => Promise<boolean>;
+  hasHmsSync: () => boolean;
   hasSystemFeature: (feature: string) => Promise<boolean>;
   hasSystemFeatureSync: (feature: string) => boolean;
   isAirplaneMode: () => Promise<boolean>;
@@ -152,8 +156,8 @@ export interface DeviceInfoModule extends ExposedNativeMethods {
   getManufacturer: () => Promise<string>;
   getManufacturerSync: () => string;
   getModel: () => string;
-  getPowerState: () => Promise<PowerState | {}>;
-  getPowerStateSync: () => PowerState | {};
+  getPowerState: () => Promise<Partial<PowerState>>;
+  getPowerStateSync: () => Partial<PowerState>;
   getReadableVersion: () => string;
   getSystemName: () => string;
   getSystemVersion: () => string;
@@ -177,7 +181,7 @@ export interface DeviceInfoModule extends ExposedNativeMethods {
   useFirstInstallTime: () => AsyncHookResult<number>;
   useHasSystemFeature: (feature: string) => AsyncHookResult<boolean>;
   useIsEmulator: () => AsyncHookResult<boolean>;
-  usePowerState: () => PowerState | {};
+  usePowerState: () => Partial<PowerState>;
   useManufacturer: () => AsyncHookResult<string>;
   useIsHeadphonesConnected: () => AsyncHookResult<boolean>;
 }

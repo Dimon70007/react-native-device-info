@@ -1,45 +1,177 @@
+## [8.1.3](https://github.com/react-native-device-info/react-native-device-info/compare/v8.1.2...v8.1.3) (2021-05-05)
+
+
+### Bug Fixes
+
+* **web:** only call navigator methods if navigator is defined ([#1225](https://github.com/react-native-device-info/react-native-device-info/issues/1225)) ([35ffa26](https://github.com/react-native-device-info/react-native-device-info/commit/35ffa26f774e8e6512d070b9a899cc9271ed093f))
+
+## [8.1.2](https://github.com/react-native-device-info/react-native-device-info/compare/v8.1.1...v8.1.2) (2021-04-18)
+
+
+### Bug Fixes
+
+* **notch:** remove `pixel 3a` from devicesWithNotch.ts ([#1221](https://github.com/react-native-device-info/react-native-device-info/issues/1221)) ([ee959d9](https://github.com/react-native-device-info/react-native-device-info/commit/ee959d98e157a691b871a00496c55f4c3605b0d8))
+
+## [8.1.1](https://github.com/react-native-device-info/react-native-device-info/compare/v8.1.0...v8.1.1) (2021-04-18)
+
+
+### Bug Fixes
+
+* **android:** use mavenCentral vs jcenter before jcenter shutdown ([#1220](https://github.com/react-native-device-info/react-native-device-info/issues/1220)) ([bffcce2](https://github.com/react-native-device-info/react-native-device-info/commit/bffcce242ef62e924650788c87bf9b30d8a9181c))
+
+# [8.1.0](https://github.com/react-native-device-info/react-native-device-info/compare/v8.0.8...v8.1.0) (2021-04-12)
+
+
+### Features
+
+* **ios:** add getInstallerPackageName support for iOS ([#1217](https://github.com/react-native-device-info/react-native-device-info/issues/1217)) ([9a844bf](https://github.com/react-native-device-info/react-native-device-info/commit/9a844bf0dfbe0351416a934890a4239886c2d451))
+
+## [8.0.8](https://github.com/react-native-device-info/react-native-device-info/compare/v8.0.7...v8.0.8) (2021-03-31)
+
+
+### Bug Fixes
+
+* **ios:** update getIpAddress to support IPv6-only interfaces ([#1190](https://github.com/react-native-device-info/react-native-device-info/issues/1190)) ([c977f30](https://github.com/react-native-device-info/react-native-device-info/commit/c977f30072c57b73c5e69969d6b5937b0baff042))
+
+## [8.0.7](https://github.com/react-native-device-info/react-native-device-info/compare/v8.0.6...v8.0.7) (2021-03-24)
+
+
+### Bug Fixes
+
+* get legacy serial number for old APIs ([#1056](https://github.com/react-native-device-info/react-native-device-info/issues/1056)) ([40aa45b](https://github.com/react-native-device-info/react-native-device-info/commit/40aa45b021addb329a6b6f652fd8e4ec9fc17a94))
+
 <!-- markdownlint-disable MD024 MD034 MD033 -->
 
-# Release Notes
+# CHANGELOG
+
+## 8.0.6
+- fix(ios, deviceType): support iOS-compiled app running on macOS (#1181, thanks @user-none!)
+- fix(ios, isEmulator): correct emulator detection for arm64 simulator (#1180, thanks @Arkkeeper!)
+
+## 8.0.5
+
+- fix: remove husky from postinstall entirely
+
+Apparently there is no way to conditionally run postinstall, and while
+we really want husky for contributors here, we must not fail on install
+of library consumers (and we don't want to install husky for everyone,
+even though it's a great package)
+
+## 8.0.4
+
+- fix: prefix husky install with with npm or package install fails
+
+Husky is just a pre-commit hook package we use for QA, quite unfortunate that as
+we ported to the next major version in v8.0.3 I broke the install for everyone. Apologies! @mikehardy
+
+## 8.0.3
+
+- fix(types, PowerState): use Partial<PowerState> vs union with '{}' (#1175, thanks @vvscode!)
+
+## 8.0.2
+
+- fix(hasNotch): fix missing Pixel 4a model name in devicesWithNotch.ts (@zarvedan)
+
+## 8.0.1
+
+- BREAKING: Fix the exporting and importing of typings in ES6 build module (#1164, thanks @diego-antonelli!)
+
+Note, if you use typescript, this requires a minimum version of typescript 3.8
+This change was inadvertently released without realizing it was a breaking change, apologies.
+It is close enough to the 8.0.0 release that it will stand here though, without bumping to 9.0.0
+
+## 8.0.0
+
+- BREAKING(ios, xcode): Xcode 12 required with #1137. Use 7.3.2 if you must use outdated Xcode (#1151)
+- feat(android, hms/gms): add ability to run without play services (#1156, thanks @saghul!)
+
+7.4.0 was inadvertently breaking. I hadn't realized any iOS developers failed to update Xcode to stable
+after an Xcode release. For a variety of reasons, you should always keep Xcode up to date, nevertheless
+dropping Xcode 11 support is breaking. Update your Xcode or use 7.3.2.
+
+## 7.4.0
+
+- feat(android, install referrer): add ability to run without install referrer (#1153, thanks @saghul!)
+- BREAKING feat(ios, catalyst): added DeviceTypeDesktop to getDeviceType() (#1137, thanks @exotexot!)
+- fix(android, install referrer): remove old install referrer api (#1150 @nicoburns!)
+- chore(ci, example): add ios/android CI, lint CI, de-lint project (@mikehardy)
+
+## 7.3.2
+
+- fix: remove deprecated way of retrieving INSTALL_REFERRER on Android (#965) (@Minishlink)
+
+### 7.3.1
+
+- fix(android, test): drop mockito to 3.6.28 to fix android test build break (thanks @jamsch!)
+
+### 7.3.0
+
+- feat(android, build): add ability to specify firebase bill of materials for iid versioning (#1133, thanks @Dimon70007!)
+- fix(notch): add Redmi 9 to hasNotch list (#1140, thanks @esgudnason!)
+- test: Adding more tests and refactoring some getters (#1136, thanks @schie!)
+- chore: dependency updates (@mikehardy)
+
+### 7.2.1
+
+- fix(test, mocks): extra comma syntax error in mock definition (#1134, thanks @DorianGrey!)
+
+### 7.2.0
+
+- feat(windows): implement additional methods (#1122, thanks @jaimecbernardo!)
+- feat(windows): port C# Windows implementation to C++ (#1113, thanks @jaimecbernardo!)
+- feat(test, mocks): adding rest of jest mocks (#1132, thanks @schie!)
+- fix(ios, keychain): change keychain access control to non-deprecated value (#1131, thanks @dmitry-bluescape!)
+
+### 7.1.0
+
+- feat(hasHms): added `hasHms` to indicate if Android device supports Huawei Mobile Services. (#1129, thanks @craig95!)
+- feat(hasGms): added `hasGms` to indicate if Android device supports Google Mobile Services. (#1129, thanks @craig95!)
+
+This release includes a truly enormous amount of testing and internal refactoring work that has made the module much
+easier to maintain, all courtesy of @schie in the form of a pile of PRs implementing the same. Thank you, Dustin Schie!
 
 ### 7.0.2
- * fix(windows): remove use of Object.fromEntries (#1110, thanks @jaimecbernardo!)
+
+- fix(windows): remove use of Object.fromEntries (#1110, thanks @jaimecbernardo!)
 
 ### 7.0.1
- * fix(hasNotch): fix missing Redmi 7 and Pixel 3a model name in devicesWithNotch.ts (#1107, thanks @tronin!)
- * fix(hasNotch): fix missing Samsung A21s model in devicesWithNotch (#1106, thanks @djhr!)
+
+- fix(hasNotch): fix missing Redmi 7 and Pixel 3a model name in devicesWithNotch.ts (#1107, thanks @tronin!)
+- fix(hasNotch): fix missing Samsung A21s model in devicesWithNotch (#1106, thanks @djhr!)
 
 ### 7.0.0
 
- * BREAKING CHANGE: Increase iOS minimum to iOS 10. Stay on 6.x if you need to support iOS 9
- * fix(iOS): supporting `getFontScale` in App Extensions (#1097, thanks @schie!)
- * feat(mocks): add default set of mocks (#1102, thanks @schie!)
+- BREAKING CHANGE: Increase iOS minimum to iOS 10. Stay on 6.x if you need to support iOS 9
+- fix(iOS): supporting `getFontScale` in App Extensions (#1097, thanks @schie!)
+- feat(mocks): add default set of mocks (#1102, thanks @schie!)
 
 The change to iOS10 minimum was required to fix getFontScale for App Extensions
 react-native 0.63 already requires iOS 10 minimum, so this is in harmony with the ecosystem
 
 ### 6.2.0
 
- * feat(hooks): add useIsHeadphonesConnected hook (#1084, thanks again @schie!)
+- feat(hooks): add useIsHeadphonesConnected hook (#1084, thanks again @schie!)
 
 ### 6.1.0
 
- * feat(hooks): add useManufacturer hook (#1083, thanks @schie!)
- * fix(types): add returnType to getPowerState (#1082, thanks @ferdicus!)
+- feat(hooks): add useManufacturer hook (#1083, thanks @schie!)
+- fix(types): add returnType to getPowerState (#1082, thanks @ferdicus!)
 
 ### 6.0.4
 
- * fix(android): fix swapped data/root values in getFreeDiskStorageSync (#1077, thanks @violetchow2611!)
+- fix(android): fix swapped data/root values in getFreeDiskStorageSync (#1077, thanks @violetchow2611!)
 
 ### 6.0.3
 
- * fix: Xcode 12 compatibility (thanks @radko93! #1075)
+- fix: Xcode 12 compatibility (thanks @radko93! #1075)
 
 ### 6.0.2
- * fix(windows): Targetplatform change for cpp apps to use this module (#1072, thanks @tero-paananen!)
+
+- fix(windows): Targetplatform change for cpp apps to use this module (#1072, thanks @tero-paananen!)
 
 ### 6.0.1
- * Added the 2nd generation iPhone SE to the deviceNamesByCode list (#1068, thanks @steve-lorenz!)
+
+- Added the 2nd generation iPhone SE to the deviceNamesByCode list (#1068, thanks @steve-lorenz!)
 
 ## 6.0.0
 

@@ -10,7 +10,11 @@ import {
 
 type MemoType = { [key: string]: any };
 // centralized memo object
-const memo: MemoType = {};
+let memo: MemoType = {};
+
+export function clearMemo() {
+  memo = {};
+}
 
 /**
  * function returns the proper getter based current platform X supported platforms
@@ -23,10 +27,10 @@ function getSupportedFunction<T>(
   getter: Getter<T>,
   defaultGetter: Getter<T>
 ): Getter<T> {
-  let supportedMap : any = {};
+  let supportedMap: any = {};
   supportedPlatforms
     .filter((key) => Platform.OS == key)
-    .forEach((key) => supportedMap[key] = getter);
+    .forEach((key) => (supportedMap[key] = getter));
   return Platform.select({
     ...supportedMap,
     default: defaultGetter,
@@ -43,7 +47,7 @@ export function getSupportedPlatformInfoSync<T>({
   defaultValue,
   memoKey,
 }: GetSupportedPlatformInfoSyncParams<T>): T {
-  if (memoKey && memo[memoKey]) {
+  if (memoKey && memo[memoKey] != undefined) {
     return memo[memoKey];
   } else {
     const output = getSupportedFunction(supportedPlatforms, getter, () => defaultValue)();
@@ -64,7 +68,7 @@ export async function getSupportedPlatformInfoAsync<T>({
   defaultValue,
   memoKey,
 }: GetSupportedPlatformInfoAsyncParams<T>): Promise<T> {
-  if (memoKey && memo[memoKey]) {
+  if (memoKey && memo[memoKey] != undefined) {
     return memo[memoKey];
   } else {
     const output = await getSupportedFunction(supportedPlatforms, getter, () =>

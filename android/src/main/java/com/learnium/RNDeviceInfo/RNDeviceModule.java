@@ -44,6 +44,7 @@ import com.facebook.react.modules.core.DeviceEventManagerModule;
 import com.learnium.RNDeviceInfo.resolver.DeviceIdResolver;
 import com.learnium.RNDeviceInfo.resolver.DeviceTypeResolver;
 
+import java.lang.reflect.Method;
 import java.net.InetAddress;
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
@@ -499,6 +500,38 @@ public class RNDeviceModule extends ReactContextBaseJavaModule {
   public void isAirplaneMode(Promise p) { p.resolve(isAirplaneModeSync()); }
 
   @ReactMethod(isBlockingSynchronousMethod = true)
+  public boolean hasGmsSync() {
+    try {
+      Class<?> googleApiAvailability = Class.forName("com.google.android.gms.common.GoogleApiAvailability");
+      Method getInstanceMethod = googleApiAvailability.getMethod("getInstance");
+      Object gmsObject = getInstanceMethod.invoke(null);
+      Method isGooglePlayServicesAvailableMethod = gmsObject.getClass().getMethod("isGooglePlayServicesAvailable", Context.class);
+      int isGMS = (int) isGooglePlayServicesAvailableMethod.invoke(gmsObject, getReactApplicationContext());
+      return isGMS == 0; // ConnectionResult.SUCCESS
+    } catch (Exception e) {
+      return false;
+    }
+  }
+  @ReactMethod
+  public void hasGms(Promise p) { p.resolve(hasGmsSync()); }
+
+  @ReactMethod(isBlockingSynchronousMethod = true)
+  public boolean hasHmsSync() {
+    try {
+      Class<?> huaweiApiAvailability = Class.forName("com.huawei.hms.api.HuaweiApiAvailability");
+      Method getInstanceMethod = huaweiApiAvailability.getMethod("getInstance");
+      Object hmsObject = getInstanceMethod.invoke(null);
+      Method isHuaweiMobileServicesAvailableMethod = hmsObject.getClass().getMethod("isHuaweiMobileServicesAvailable", Context.class);
+      int isHMS = (int) isHuaweiMobileServicesAvailableMethod.invoke(hmsObject, getReactApplicationContext());
+      return isHMS == 0; // ConnectionResult.SUCCESS
+    } catch (Exception e) {
+      return false;
+    }
+  }
+  @ReactMethod
+  public void hasHms(Promise p) { p.resolve(hasHmsSync()); }
+
+  @ReactMethod(isBlockingSynchronousMethod = true)
   public boolean hasSystemFeatureSync(String feature) {
     if (feature == null || feature.equals("")) {
       return false;
@@ -655,6 +688,8 @@ public class RNDeviceModule extends ReactContextBaseJavaModule {
         if (getReactApplicationContext().checkCallingOrSelfPermission(Manifest.permission.READ_PHONE_STATE) == PackageManager.PERMISSION_GRANTED) {
           return Build.getSerial();
         }
+      } else {
+        return Build.SERIAL;
       }
     } catch (Exception e) {
       // This is almost always a PermissionException. We will log it but return unknown

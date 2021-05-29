@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { NativeEventEmitter, NativeModules } from 'react-native';
-import { AsyncHookResult } from './types';
+import type { AsyncHookResult } from './types';
 
 /**
  * simple hook wrapper for async functions for 'on-mount / componentDidMount' that only need to fired once
@@ -26,7 +26,7 @@ export function useOnMount<T>(asyncGetter: () => Promise<T>, initialResult: T): 
   return response;
 }
 
-const deviceInfoEmitter = new NativeEventEmitter(NativeModules.RNDeviceInfo);
+export const deviceInfoEmitter = new NativeEventEmitter(NativeModules.RNDeviceInfo);
 
 /**
  * simple hook wrapper for handling events
@@ -52,7 +52,7 @@ export function useOnEvent<T>(
   useEffect(() => {
     const subscription = deviceInfoEmitter.addListener(eventName, setResult);
     return () => subscription.remove();
-  }, []);
+  }, [eventName]);
 
   // loading will only be true while getting the inital value. After that, it will always be false, but a new result may occur
   return { loading, result };
